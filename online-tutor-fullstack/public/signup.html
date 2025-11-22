@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Signup — QuickTutor</title>
+  <meta name="description" content="Create an account" />
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* small centered form style (optional, your style.css will apply) */
+    .auth-wrap { max-width:420px;margin:60px auto;padding:22px;border-radius:12px;background:var(--card); }
+    .auth-row{margin-top:12px}
+    .hint{font-size:13px;color:var(--muted);margin-top:8px}
+    .success{color:#b7ffbf}
+    .err{color:#ffb4b4}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="auth-wrap card">
+      <h2>Create your account</h2>
+      <div class="small">Signup to access courses, schedule and saved content.</div>
+
+      <div class="auth-row">
+        <input id="name" class="input" placeholder="Full name" />
+      </div>
+
+      <div class="auth-row">
+        <input id="email" class="input" placeholder="Email" />
+      </div>
+
+      <div class="auth-row">
+        <input id="password" class="input" placeholder="Password" type="password" />
+        <div class="hint">Password must contain: 1 uppercase, 1 lowercase, 1 number and 1 special character, min 8 chars.</div>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px">
+        <div class="small"><a href="login.html" class="linkish">Already have an account? Login</a></div>
+        <div><button class="btn primary" id="doSignup">Create account</button></div>
+      </div>
+
+      <div id="msg" style="margin-top:12px;display:none" class="small"></div>
+    </div>
+  </div>
+
+  <script>
+    (async function(){
+      const msgEl = document.getElementById('msg');
+      function show(msg, type='err'){
+        msgEl.style.display='block';
+        msgEl.className = 'small ' + (type==='ok' ? 'success' : 'err');
+        msgEl.textContent = msg;
+      }
+      function hide(){ msgEl.style.display='none'; msgEl.textContent=''; }
+    
+      function validatePassword(p){
+        return p.length >= 8 &&
+               /[a-z]/.test(p) &&
+               /[A-Z]/.test(p) &&
+               /[0-9]/.test(p) &&
+               /[^A-Za-z0-9]/.test(p);
+      }
+    
+      async function postJSON(url, body){
+        return fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify(body)
+        });
+      }
+    
+      document.getElementById('doSignup').addEventListener('click', async (e)=>{
+        e.preventDefault();
+        hide();
+    
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+    
+        if(!name || !email || !password){
+          show('Please fill all fields.');
+          return;
+        }
+        if(!validatePassword(password)){
+          show('Password must be at least 8 characters and include uppercase, lowercase, number and special character.');
+          return;
+        }
+    
+        try{
+          // use /signup route (your server.js defines this)
+          const res = await postJSON('/signup', { name, email, password });
+          const data = await res.json().catch(()=>({}));
+    
+          if(!res.ok){
+            const err = data && (data.error || data.message) || 'Signup failed';
+            show(err);
+            return;
+          }
+    
+          show('Signup successful! Redirecting to login...', 'ok');
+          setTimeout(()=> location.href = '/public/login.html', 900);
+        } catch(err){
+          console.error('Signup error', err);
+          show('Network error — check server is running.');
+        }
+      });
+    
+      // allow Enter to submit
+      ['name','email','password'].forEach(id=>{
+        const el = document.getElementById(id);
+        if(el) el.addEventListener('keydown', (e)=>{ if(e.key === 'Enter') document.getElementById('doSignup').click(); });
+      });
+    })();
+    </script>
+    
+    
+</body>
+</html>

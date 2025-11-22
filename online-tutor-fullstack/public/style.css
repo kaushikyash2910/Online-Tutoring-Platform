@@ -1,0 +1,164 @@
+:root{
+    --bg:#0f1724;
+    --card:#0b1220;
+    --muted:#94a3b8;
+    --accent:#16a34a;
+    --accent-2:#06b6d4;
+    --glass: rgba(255,255,255,0.04);
+    --glass-2: rgba(255,255,255,0.02);
+    --radius:16px;
+    --maxw:1200px;
+    --top-offset: 92px;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  }
+  /* Light theme */
+  .light {
+    --bg: #f7fafc;
+    --card: #ffffff;
+    --muted: #475569;
+    --accent: #16a34a;
+    --accent-2: #06b6d4;
+    --glass: rgba(2,6,23,0.03);
+    --glass-2: rgba(2,6,23,0.02);
+  }
+  
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:linear-gradient(180deg,var(--bg),#071026);color:#e6eef8;line-height:1.45}
+  .light body{ color:#0b1724; background: linear-gradient(180deg,var(--bg),#ffffff); }
+  a{color:inherit;text-decoration:none}
+  .container{max-width:var(--maxw);margin:0 auto;padding:28px}
+  
+  /* Navbar */
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .brand{display:flex;gap:12px;align-items:center}
+  .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:700;color:#042027}
+  .nav-links{display:flex;gap:18px;align-items:center}
+  .nav-links a{color:var(--muted);padding:8px 10px;border-radius:10px}
+  .nav-links a:hover{background:var(--glass);color:inherit}
+  .cta{background:linear-gradient(90deg,var(--accent-2),var(--accent));padding:10px 16px;border-radius:12px;font-weight:600;color:#021018}
+  
+  /* Hero split layout (full-ish page) */
+  .hero-wrap {
+    display:grid;
+    grid-template-columns: 1fr 380px;
+    gap:28px;
+    align-items:start;
+    min-height: calc(100vh - var(--top-offset));
+    margin-top:22px;
+  }
+  
+  /* left column scrolls internally if content long */
+  .hero-left {
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+    max-height: calc(100vh - var(--top-offset) - 56px);
+    overflow:auto;
+    padding-right:6px;
+  }
+  
+  .hero-card{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:28px;border-radius:var(--radius);box-shadow:0 6px 24px rgba(4,8,15,0.6);backdrop-filter:blur(6px)}
+  .light .hero-card{ background: linear-gradient(180deg, rgba(2,6,23,0.02), rgba(255,255,255,0.6)); box-shadow:0 6px 18px rgba(2,6,23,0.06); }
+  .h-title{font-size:28px;margin:0 0 8px}
+  .h-sub{color:var(--muted);margin-bottom:16px}
+  .search{display:flex;gap:10px}
+  .search input{flex:1;padding:12px 14px;border-radius:12px;border:1px solid var(--glass);background:transparent;color:inherit}
+  .search button{padding:12px 16px;border-radius:12px;border:0;background:linear-gradient(90deg,var(--accent-2),var(--accent));font-weight:700;color:#021018}
+  
+  /* stats */
+  .stats{display:flex;gap:12px;margin-top:18px}
+  .stat{background:var(--glass);padding:12px;border-radius:12px;min-width:110px;text-align:center}
+  .stat .num{font-weight:700;font-size:18px}
+  .stat .lbl{font-size:12px;color:var(--muted)}
+  
+  /* Promo (aside) - sticky full height on wide screens */
+  .promo {
+    padding:16px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border:1px solid var(--glass-2);
+    height: calc(92vh - var(--top-offset));
+    position:sticky;
+    top: calc(var(--top-offset) - 8px);
+    overflow:auto;
+  }
+  .light .promo{ background:#fff; border:1px solid rgba(2,6,23,0.05); color:#0b1724; }
+  
+  .promo h4{margin:0 0 8px}
+  .teacher{display:flex;gap:12px;align-items:center}
+  .avatar{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,#fef3c7,#fde68a);display:flex;align-items:center;justify-content:center;color:#3b2b00;font-weight:800}
+  
+  /* Filters, grid, cards (unchanged) */
+  .filters{display:flex;gap:10px;margin:20px 0;flex-wrap:wrap}
+  .chip{padding:8px 12px;border-radius:999px;background:var(--glass);color:var(--muted);cursor:pointer}
+  .chip.active{background:linear-gradient(90deg,var(--accent-2),var(--accent));color:#021018}
+  
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:10px}
+  .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:14px;border-radius:14px;border:1px solid var(--glass-2);box-shadow:0 6px 18px rgba(3,6,12,0.5);transition:transform .18s ease}
+  .light .card{ background:#fff; border:1px solid rgba(2,6,23,0.04); box-shadow:0 6px 18px rgba(2,6,23,0.04); color:#0b1724; }
+  .card:hover{transform:translateY(-6px)}
+  .card .meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+  .card .title{font-weight:700}
+  .card .desc{color:var(--muted);font-size:13px;margin:8px 0}
+  .card .tags{display:flex;gap:8px;flex-wrap:wrap}
+  .tag{background:rgba(255,255,255,0.03);padding:6px 8px;border-radius:8px;font-size:12px;color:var(--muted)}
+  .course-actions{display:flex;gap:10px;margin-top:12px}
+  .btn{padding:8px 12px;border-radius:10px;border:1px solid var(--glass);background:transparent;color:inherit;cursor:pointer}
+  .btn.primary{background:linear-gradient(90deg,var(--accent-2),var(--accent));color:#021018;border:0}
+  
+  .teachers{display:flex;gap:12px;margin-top:22px;align-items:center}
+  .t-card{background:var(--glass);padding:10px;border-radius:12px;display:flex;gap:10px;align-items:center}
+  .light .t-card{ background:#fff; border:1px solid rgba(2,6,23,0.04); color:#0b1724; }
+  
+  footer{margin-top:36px;padding:18px 0;color:var(--muted);text-align:center}
+  
+  @media (max-width:1100px){
+    .hero-wrap{ grid-template-columns: 1fr 320px; }
+    .promo{ height: calc(100vh - var(--top-offset) - 20px); top: calc(var(--top-offset) - 8px); }
+  }
+  /* mobile: stack hero and promo (aside moves below) */
+  @media (max-width:900px){
+    .hero-wrap{ grid-template-columns:1fr; min-height: auto; }
+    .hero-left{ max-height: none; overflow:visible; padding-right:0; }
+    .promo{ position:relative; top:0; height:auto; width:100%; order:2; }
+  }
+  
+  /* modal & UI bits */
+  .modal-back{position:fixed;inset:0;background:rgba(2,6,23,0.6);display:flex;align-items:center;justify-content:center;z-index:80;opacity:0;pointer-events:none;transition:opacity .18s}
+  .light .modal-back{ background: rgba(2,6,23,0.06); }
+  .modal-back.show{opacity:1;pointer-events:auto}
+  .modal{background:#021026;padding:18px;border-radius:14px;width:min(720px,95%);box-shadow:0 14px 40px rgba(2,6,12,0.8); color:inherit}
+  .light .modal{ background:#fff; color:#0b1724; box-shadow:0 10px 30px rgba(2,6,23,0.06); }
+  .modal h3{margin:0 0 12px}
+  .form-row{display:flex;gap:10px}
+  .form-row .col{flex:1}
+  .input,textarea{width:100%;padding:10px;border-radius:10px;border:1px solid var(--glass);background:transparent;color:inherit}
+  .light .input{ border:1px solid rgba(2,6,23,0.06); }
+  textarea{min-height:100px}
+  .small{font-size:13px;color:var(--muted)}
+  
+  /* --- Dark-mode-only background + unified card tint --- */
+  /* These rules only apply when the html element does NOT have the .light class */
+  
+  html:not(.light) {
+    background: linear-gradient(180deg, #071024 0%, #041021 100%) !important;
+    background-attachment: fixed;
+  }
+  
+  html:not(.light) .hero-card,
+  html:not(.light) .card,
+  html:not(.light) .promo,
+  html:not(.light) .t-card,
+  html:not(.light) .modal {
+    background: rgba(3,9,18,0.42) !important;
+    border: 1px solid rgba(255,255,255,0.03) !important;
+    box-shadow: 0 10px 30px rgba(2,6,12,0.55) !important;
+    background-image: none !important;
+  }
+  
+  /* ensure the big promo/aside doesn't introduce its own gradient in dark mode */
+  html:not(.light) .promo { background-image: none !important; }
+  
+  html:not(.light) footer {
+    background: transparent !important;
+    color: var(--muted);
+  }
+  

@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>QuickTutor — Online Tutor Platform (Demo UI)</title>
+  <meta name="description" content="A polished frontend demo for an online tutoring platform (HTML/CSS/JS)." />
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="container">
+
+    <!-- NAVBAR -->
+    <nav class="nav">
+      <div class="brand">
+        <div class="logo">QT</div>
+        <div>
+          <div style="font-weight:700">QuickTutor</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px">Learn faster. Score higher.</div>
+        </div>
+      </div>
+
+      <div class="nav-links">
+        <a href="#courses">Courses</a>
+        <a href="#teachers">Teachers</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#about">About</a>
+        <a class="cta" href="#" id="joinNow">Join Now</a>
+
+        <!-- LOGIN replaced by Account Dropdown -->
+        <div class="userDropdown" id="userDropdown" style="position:relative;display:none">
+          <button id="userBtn" class="btn">Account</button>
+          <div class="dropdownMenu" id="dropdownMenu"
+               style="position:absolute;right:0;top:38px;background:var(--card);
+                      padding:10px;border-radius:10px;display:none;box-shadow:0 2px 8px rgba(0,0,0,0.3)">
+            <div id="userName" style="margin-bottom:10px;font-weight:700"></div>
+            <button id="logoutBtn" class="btn" style="width:100%">Logout</button>
+          </div>
+        </div>
+        
+        <!-- LOGIN BUTTON FOR NON-LOGGED USERS -->
+        <a href="login.html" id="loginBtn">Login</a>
+        
+        
+        <button id="themeToggle" class="btn" title="Toggle theme">🌙</button>
+      </div>
+
+      <div id="mobileToggle" style="display:none;">
+        <button class="btn" aria-label="menu">☰</button>
+      </div>
+    </nav>
+
+
+    <!-- HERO SECTION -->
+    <div class="hero-wrap">
+      <div class="hero-left">
+        <div class="hero-card">
+          <h1 class="h-title">Master concepts with expert tutors — live & recorded.</h1>
+          <p class="h-sub">Interactive classes, doubt sessions, and topic-wise practice — all in one place for Class 6–12 & JEE/NEET prep.</p>
+
+          <div class="search">
+            <input id="searchInput" placeholder="Search courses, topics or teachers (e.g. 'Electrostatics')" />
+            <button id="searchBtn">Search</button>
+          </div>
+
+          <!-- Stats -->
+          <div class="stats">
+            <div class="stat">
+              <div class="num" id="studentsCounter">120k+</div>
+              <div class="lbl">Students</div>
+            </div>
+            <div class="stat">
+              <div class="num" id="liveCounter">840</div>
+              <div class="lbl">Live Classes</div>
+            </div>
+            <div class="stat">
+              <div class="num" id="tutorsCounter">50</div>
+              <div class="lbl">Top Tutors</div>
+            </div>
+          </div>
+
+          <!-- Video Preview -->
+          <div class="card" id="trendingCard" style="display:flex;gap:12px;align-items:center;margin-top:18px">
+            <div style="width:160px;height:96px;background:linear-gradient(90deg,#06283d,#0a2e3f);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer"
+                 id="playPreview">
+              <svg width="56" height="56" viewBox="0 0 24 24" fill="none" style="opacity:0.95">
+                <path d="M5 3v18l15-9L5 3z" fill="white"/>
+              </svg>
+            </div>
+            <div style="flex:1">
+              <div style="font-weight:700">Trending: Electrostatics Live Class</div>
+              <div class="small" style="margin-top:6px">Short preview — watch a sample from Dr. Aryan's session.</div>
+              <div style="margin-top:10px">
+                <button class="btn primary" id="watchPreviewBtn">Watch Preview</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Filters -->
+          <div class="filters" id="filterStrip" style="margin-top:18px">
+            <div class="chip active" data-tag="all">All</div>
+            <div class="chip" data-tag="jee">JEE</div>
+            <div class="chip" data-tag="neet">NEET</div>
+            <div class="chip" data-tag="class10">Class 10</div>
+            <div class="chip" data-tag="class12">Class 12</div>
+            <div class="chip" data-tag="cbse">CBSE</div>
+          </div>
+
+          <!-- Course Cards -->
+          <div id="courses" class="grid" aria-live="polite" style="margin-top:8px"></div>
+
+        </div>
+      </div>
+
+      <!-- ASIDE / Promo -->
+      <aside class="promo">
+        <h4>Featured Coach — Dr. Aryan</h4>
+        <div class="teacher">
+          <div class="avatar">A</div>
+          <div>
+            <div style="font-weight:700">Dr. Aryan Sharma</div>
+            <div class="small">Physics • 12+ years experience</div>
+            <div style="margin-top:8px;font-size:14px">
+              Next live: <strong>Electrostatics — Today 6:00 PM</strong>
+            </div>
+            <div style="margin-top:10px">
+              <button class="btn primary" id="viewSchedule">View Schedule</button>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:16px" class="small">Why learners love us</div>
+        <ul style="margin-top:8px;color:var(--muted);padding-left:18px">
+          <li>Topic-wise short videos</li>
+          <li>Live doubt solving</li>
+          <li>Practice tests & solutions</li>
+        </ul>
+
+        <div style="height:14px"></div>
+        <div style="font-weight:700;margin-bottom:6px">Quick Links</div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
+          <button class="btn">My Schedule</button>
+          <button class="btn">Saved Notes</button>
+          <button class="btn">Practice Tests</button>
+        </div>
+
+        <div style="height:18px"></div>
+        <div style="font-weight:700;margin-bottom:6px">Contact</div>
+        <div class="small">support@quicktutor.example</div>
+      </aside>
+
+    </div>
+
+
+    <!-- SUBJECTS -->
+    <section id="subjects" style="margin-top:28px">
+      <div style="font-weight:700;margin-bottom:10px">Popular Subjects</div>
+
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <div class="card" style="display:flex;align-items:center;gap:12px;width:220px">
+          <div style="width:48px;height:48px;border-radius:999px;background:linear-gradient(90deg,#0ea5a4,#06b6d4);
+            display:flex;align-items:center;justify-content:center">⚛️</div>
+          <div><div style="font-weight:700">Physics</div><div class="small">Mechanics, Electromagnetism</div></div>
+        </div>
+
+        <div class="card" style="display:flex;align-items:center;gap:12px;width:220px">
+          <div style="width:48px;height:48px;border-radius:999px;background:linear-gradient(90deg,#7dd3fc,#60a5fa);
+            display:flex;align-items:center;justify-content:center">🧪</div>
+          <div><div style="font-weight:700">Chemistry</div><div class="small">Organic, Inorganic</div></div>
+        </div>
+
+        <div class="card" style="display:flex;align-items:center;gap:12px;width:220px">
+          <div style="width:48px;height:48px;border-radius:999px;background:linear-gradient(90deg,#86efac,#16a34a);
+            display:flex;align-items:center;justify-content:center">📐</div>
+          <div><div style="font-weight:700">Maths</div><div class="small">Algebra, Geometry</div></div>
+        </div>
+
+        <div class="card" style="display:flex;align-items:center;gap:12px;width:220px">
+          <div style="width:48px;height:48px;border-radius:999px;background:linear-gradient(90deg,#fde68a,#fca5a5);
+            display:flex;align-items:center;justify-content:center">🧬</div>
+          <div><div style="font-weight:700">Biology</div><div class="small">Genetics, Anatomy</div></div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- TEACHERS -->
+    <section class="teachers" id="teachers" style="margin-top:22px">
+      <div style="font-weight:700">Top Tutors</div>
+      <div style="flex:1"></div>
+
+      <div class="t-card"><div class="avatar" style="width:40px;height:40px">R</div>
+        <div class="small">Ritu Ma'am<br/><span style="color:var(--muted);font-size:12px">Chemistry</span></div></div>
+
+      <div class="t-card"><div class="avatar" style="width:40px;height:40px">S</div>
+        <div class="small">Sandeep Sir<br/><span style="color:var(--muted);font-size:12px">Maths</span></div></div>
+
+      <div class="t-card"><div class="avatar" style="width:40px;height:40px">A</div>
+        <div class="small">Anita Ma'am<br/><span style="color:var(--muted);font-size:12px">Biology</span></div></div>
+
+      <div class="t-card"><div class="avatar" style="width:40px;height:40px">M</div>
+        <div class="small">Manav Sir<br/><span style="color:var(--muted);font-size:12px">Physics</span></div></div>
+
+      <div class="t-card"><div class="avatar" style="width:40px;height:40px">P</div>
+        <div class="small">Priya Ma'am<br/><span style="color:var(--muted);font-size:12px">Biology</span></div></div>
+    </section>
+
+
+    <!-- REVIEWS -->
+    <section id="reviews" style="margin-top:22px">
+      <div style="font-weight:700;margin-bottom:10px">Reviews & Ratings</div>
+
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <div class="card" style="width:420px">
+          <div style="font-weight:700">⭐️⭐️⭐️⭐️☆</div>
+          <div class="small" style="margin-top:8px">"Best physics teacher, explains tough concepts easily." — Pranav</div>
+        </div>
+
+        <div class="card" style="width:300px">
+          <div style="font-weight:700">⭐️⭐️⭐️⭐️⭐️</div>
+          <div class="small" style="margin-top:8px">"Clear notes and quick doubt sessions." — Aisha</div>
+        </div>
+
+        <div class="card" style="width:300px">
+          <div style="font-weight:700">⭐️⭐️⭐️⭐️☆</div>
+          <div class="small" style="margin-top:8px">"Loved the practice tests." — Rohan</div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- TESTIMONIALS -->
+    <section id="testimonials" style="margin-top:22px">
+      <div style="font-weight:700;margin-bottom:10px">Student Success Stories</div>
+
+      <div id="testiWrap" class="card" style="height:110px;display:flex;align-items:center;padding:16px">
+        <div id="testiText" style="font-weight:700">“I improved my JEE rank from 12k → 3.1k thanks to QuickTutor!” — Ankit</div>
+      </div>
+    </section>
+
+
+    <!-- PRICING -->
+    <section id="pricing" style="margin-top:22px">
+      <div style="font-weight:700;margin-bottom:10px">Pricing Plans</div>
+
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <div class="card" style="flex:1;min-width:220px">
+          <div style="font-weight:700">Basic</div>
+          <div class="small" style="margin:8px 0">Free notes & recorded lectures</div>
+          <div style="font-weight:800;margin-top:10px">₹0</div>
+          <div style="margin-top:12px">
+            <button class="btn primary">Choose Basic</button>
+          </div>
+        </div>
+
+        <div class="card" style="flex:1;min-width:220px">
+          <div style="font-weight:700">Standard</div>
+          <div class="small" style="margin:8px 0">Live classes + tests</div>
+          <div style="font-weight:800;margin-top:10px">₹799 / month</div>
+          <div style="margin-top:12px">
+            <button class="btn primary">Choose Standard</button>
+          </div>
+        </div>
+
+        <div class="card" style="flex:1;min-width:220px">
+          <div style="font-weight:700">Premium</div>
+          <div class="small" style="margin:8px 0">1-on-1 doubt sessions</div>
+          <div style="font-weight:800;margin-top:10px">₹2,499 / month</div>
+          <div style="margin-top:12px">
+            <button class="btn primary">Choose Premium</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer style="margin-top:36px;padding:18px 0;color:var(--muted);text-align:center">
+      © 2025 QuickTutor — Demo UI • Built for college minor project submission
+    </footer>
+
+  </div>
+
+
+  <!-- UPCOMING CLASSES SIDEBAR -->
+  <aside id="upcomingSidebar" style="position:fixed;right:20px;top:120px;width:260px;background:rgba(2,6,23,0.7);padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);z-index:70;display:flex;flex-direction:column;gap:8px">
+    <div style="font-weight:700;margin-bottom:6px">Upcoming Classes Today</div>
+    <div class="small">Electrostatics — 6:00 PM</div>
+    <div class="small">Mole Concept — 7:00 PM</div>
+    <div class="small">Human Physiology — 8:00 PM</div>
+    <div style="height:6px"></div>
+    <button class="btn" id="closeSidebar" style="align-self:flex-end">✕</button>
+  </aside>
+
+
+  <!-- ENROLL MODAL (still required) -->
+  <div id="modalBack" class="modal-back" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <h3 id="modalTitle">Enroll in Course</h3>
+
+      <p class="small">Fill details below to enroll or request a free trial class.</p>
+      <div style="height:10px"></div>
+
+      <div class="form-row">
+        <div class="col"><input id="stuName" class="input" placeholder="Your name"/></div>
+        <div class="col"><input id="stuEmail" class="input" placeholder="Email"/></div>
+      </div>
+
+      <div style="height:10px"></div>
+      <input id="stuRoll" class="input" placeholder="Roll number / Phone"/>
+
+      <div style="height:10px"></div>
+      <textarea id="stuMsg" placeholder="Short message / queries"></textarea>
+
+      <div style="height:12px"></div>
+      <div style="display:flex;gap:10px;justify-content:flex-end">
+        <button class="btn" id="closeModal">Close</button>
+        <button class="btn primary" id="doEnroll">Enroll</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- VIDEO PREVIEW MODAL -->
+  <div id="videoBack" class="modal-back" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" style="max-width:900px">
+      <h3 id="videoTitle">Preview Class — Electrostatics</h3>
+
+      <div style="margin-top:10px">
+        <div style="position:relative;padding-top:56.25%;">
+          <iframe id="previewIframe" src="" frameborder="0" allowfullscreen
+            style="position:absolute;inset:0;width:100%;height:100%;border-radius:10px"></iframe>
+        </div>
+      </div>
+
+      <div style="margin-top:12px;display:flex;justify-content:flex-end">
+        <button class="btn" id="closeVideo">Close</button>
+      </div>
+
+    </div>
+  </div>
+
+
+  <script src="app.js" defer></script>
+  <script src="modals.js" defer></script>
+
+</body>
+</html>

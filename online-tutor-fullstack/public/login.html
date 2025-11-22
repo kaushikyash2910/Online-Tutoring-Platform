@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Login — QuickTutor</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="auth-wrap">
+      <h2>Welcome back</h2>
+      <div class="small">Login to access your courses and schedule.</div>
+
+      <div style="margin-top:12px"><input id="email" class="input" placeholder="Email" /></div>
+      <div style="margin-top:12px"><input id="password" class="input" placeholder="Password" type="password" /></div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
+        <div class="small"><a href="signup.html" class="linkish">Create account</a></div>
+        <div><button class="btn primary" id="doLogin">Login</button></div>
+      </div>
+      <div id="err" class="small" style="color:#ffb4b4;margin-top:8px;display:none"></div>
+    </div>
+  </div>
+
+  <script>
+    async function postJSON(url, body){
+      const resp = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(body)
+      });
+      return resp;
+    }
+    
+    document.getElementById('doLogin').addEventListener('click', async ()=>{
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const err = document.getElementById('err');
+      err.style.display = 'none';
+    
+      if(!email || !password){
+        err.textContent = 'Enter email and password';
+        err.style.display = 'block';
+        return;
+      }
+    
+      try {
+        const r = await postJSON('/login', { email, password });
+        const data = await r.json().catch(()=>({}));
+        if(!r.ok){
+          const msg = data.error || data.message || 'Login failed';
+          err.textContent = msg;
+          err.style.display = 'block';
+          return;
+        }
+    
+        // store user info so client can show name in navbar
+        localStorage.setItem('qt_user', JSON.stringify({ name: data.name, email: data.email, role: data.role }));
+    
+        // redirect to home page (use / or /public/index.html depending on your server)
+        window.location.href = '/public/index.html';
+      } catch(e){
+        console.error('Login error', e);
+        err.textContent = 'Network error — check server is running.';
+        err.style.display = 'block';
+      }
+    });
+    </script>
+    
+</body>
+</html>

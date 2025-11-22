@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Admin — QuickTutor</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Admin — Manage Courses</h2>
+    <div style="display:flex;gap:12px;align-items:center;margin-top:12px">
+      <input id="title" class="input" placeholder="Title" />
+      <input id="tag" class="input" placeholder="Tag" />
+      <input id="tutor" class="input" placeholder="Tutor" />
+      <input id="price" class="input" placeholder="Price" />
+      <button id="addCourse" class="btn primary">Add</button>
+    </div>
+    <div id="courseList" style="margin-top:18px"></div>
+  </div>
+
+<script>
+  async function api(path, opts = {}) {
+    opts.credentials = 'include';
+    if(!opts.headers) opts.headers = {};
+    if(!opts.headers['Content-Type'] && opts.body) opts.headers['Content-Type'] = 'application/json';
+    if(opts.body && typeof opts.body !== 'string') opts.body = JSON.stringify(opts.body);
+    const r = await fetch(path, opts);
+    return r;
+  }
+
+  async function load(){
+    const r = await api('/api/courses');
+    const list = await r.json();
+    const wrap = document.getElementById('courseList'); wrap.innerHTML = '';
+    list.forEach(c=>{
+      const div = document.createElement('div');
+      div.className='card';
+      div.style.marginBottom='10px';
+      div.innerHTML = `<strong>${c.title}</strong> — <span class="small">${c.tag||''}</span>
+        <div style="margin-top:8px">
+          <button class="btn" onclick='edit("${c._id}")'>Edit</button>
+          <button class="btn" onclick='remove("${c._id}")'>Delete</button>
+        </div>`;
+      wrap.appendChild(div);
+    });
+  }
+  async function addCourse(){
+    const title = document.getElementById('title').value.trim();
+    const tag = document.getElementById('tag').value.trim();
+    const tutor = document.getElementById('tutor').value.trim();
+    const price = document.getElementById('price').value.trim();
+    if(!title) return alert('title required');
+    const r = await api('/api/courses',{ method:'POST', body:{ title, tag, tutor, price } });
+    if(!r.ok) return alert('Add failed - are you admin & logged in?');
+    document.getElementById('title').value=''; load();
+  }
+  async function remove(id){
+    if(!confirm('Delete course?')) return;
+    const r = await api('/api/courses/' + id, { method:'DELETE' });
+    if(!r.ok) return alert('Delete failed - are you admin & logged in?');
+    load();
+  }
+  function edit(id){ alert('Edit via API: PUT /api/courses/' + id + ' (implement UI if needed)'); }
+
+  document.getElementById('addCourse').addEventListener('click', addCourse);
+  load();
+</script>
+</body>
+</html>
