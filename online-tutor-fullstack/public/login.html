@@ -5,6 +5,46 @@
   <title>Login — QuickTutor</title>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* Simple success overlay styles */
+    .success-overlay {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      background: rgba(0,0,0,0.45);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 220ms ease;
+    }
+    .success-overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .success-box {
+      background: var(--card, #ffffff);
+      padding: 20px 22px;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(10,10,10,0.35);
+      width: 360px;
+      max-width: calc(100% - 40px);
+      text-align: center;
+      color: inherit;
+    }
+    .success-avatar {
+      width:72px;height:72px;border-radius:999px;display:inline-flex;
+      align-items:center;justify-content:center;font-size:28px;font-weight:700;
+      margin:0 auto 12px;background:linear-gradient(90deg,#06b6d4,#0ea5a4);color:#fff;
+    }
+    .success-title { font-size:18px;font-weight:700;margin-bottom:6px; }
+    .success-sub { font-size:14px;color:var(--muted,#6b7280); margin-bottom:12px; }
+    .success-actions { display:flex;gap:8px; justify-content:center; margin-top:8px; }
+    .btn.small { padding:8px 12px; font-size:14px; border-radius:10px; }
+    /* error message */
+    #err { transition: opacity .18s ease; }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -12,14 +52,27 @@
       <h2>Welcome back</h2>
       <div class="small">Login to access your courses and schedule.</div>
 
-      <div style="margin-top:12px"><input id="email" class="input" placeholder="Email" /></div>
-      <div style="margin-top:12px"><input id="password" class="input" placeholder="Password" type="password" /></div>
+      <div style="margin-top:12px"><input id="email" class="input" placeholder="Email" autocomplete="email" /></div>
+      <div style="margin-top:12px"><input id="password" class="input" placeholder="Password" type="password" autocomplete="current-password" /></div>
 
       <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
         <div class="small"><a href="signup.html" class="linkish">Create account</a></div>
         <div><button class="btn primary" id="doLogin">Login</button></div>
       </div>
       <div id="err" class="small" style="color:#ffb4b4;margin-top:8px;display:none"></div>
+    </div>
+  </div>
+
+  <!-- Success overlay (hidden by default) -->
+  <div id="successOverlay" class="success-overlay" aria-hidden="true">
+    <div class="success-box" role="dialog" aria-modal="true" aria-labelledby="successTitle">
+      <div id="avatar" class="success-avatar">U</div>
+      <div id="successTitle" class="success-title">Welcome</div>
+      <div id="successMsg" class="success-sub">You've successfully logged in.</div>
+      <div class="success-actions">
+        <button id="continueBtn" class="btn small primary">Continue now</button>
+        <button id="dismissBtn" class="btn small">Stay on page</button>
+      </div>
     </div>
   </div>
 
@@ -33,41 +86,135 @@
       });
       return resp;
     }
-    
+  
+    async function fetchMeWithToken(token){
+      try {
+        const r = await fetch('/api/auth/me', {
+          headers: { Authorization: 'Bearer ' + token },
+          credentials: 'include'
+        });
+        if (!r.ok) return null;
+        return await r.json();
+      } catch (e) {
+        return null;
+      }
+    }
+  
+    function showError(msg){
+      const err = document.getElementById('err');
+      err.textContent = msg;
+      err.style.display = 'block';
+    }
+    function hideError(){
+      const err = document.getElementById('err');
+      err.style.display = 'none';
+    }
+  
+    function showSuccessOverlay(nameOrUser, role, customMsg, redirectUrl){
+      const overlay = document.getElementById('successOverlay');
+      const avatar = document.getElementById('avatar');
+      const title = document.getElementById('successTitle');
+      const msg = document.getElementById('successMsg');
+      const continueBtn = document.getElementById('continueBtn');
+      const dismissBtn = document.getElementById('dismissBtn');
+  
+      const initial = (nameOrUser && String(nameOrUser).trim()[0]) ? String(nameOrUser).trim()[0].toUpperCase() : 'U';
+      avatar.textContent = initial;
+  
+      if(role === 'admin'){
+        title.textContent = `Welcome back, Admin ${nameOrUser || ''}`.trim();
+      } else {
+        title.textContent = `Welcome, ${nameOrUser || 'Learner'}`;
+      }
+  
+      msg.textContent = customMsg || (role === 'admin' ? 'You are signed in with admin privileges.' : 'You are signed in.');
+  
+      overlay.classList.add('show');
+      overlay.setAttribute('aria-hidden', 'false');
+  
+      continueBtn.onclick = () => {
+        overlay.classList.remove('show');
+        overlay.setAttribute('aria-hidden', 'true');
+        window.location.href = redirectUrl;
+      };
+      dismissBtn.onclick = () => {
+        overlay.classList.remove('show');
+        overlay.setAttribute('aria-hidden', 'true');
+      };
+  
+      setTimeout(() => {
+        overlay.classList.remove('show');
+        overlay.setAttribute('aria-hidden', 'true');
+        window.location.href = redirectUrl;
+      }, 2000);
+    }
+  
     document.getElementById('doLogin').addEventListener('click', async ()=>{
       const email = document.getElementById('email').value.trim();
       const password = document.getElementById('password').value.trim();
-      const err = document.getElementById('err');
-      err.style.display = 'none';
-    
+      hideError();
+  
       if(!email || !password){
-        err.textContent = 'Enter email and password';
-        err.style.display = 'block';
+        showError('Enter email and password');
         return;
       }
-    
+  
       try {
+        // 1) login
         const r = await postJSON('/login', { email, password });
         const data = await r.json().catch(()=>({}));
+  
         if(!r.ok){
           const msg = data.error || data.message || 'Login failed';
-          err.textContent = msg;
-          err.style.display = 'block';
+          showError(msg);
           return;
         }
-    
-        // store user info so client can show name in navbar
-        localStorage.setItem('qt_user', JSON.stringify({ name: data.name, email: data.email, role: data.role }));
-    
-        // redirect to home page (use / or /public/index.html depending on your server)
-        window.location.href = '/public/index.html';
+  
+        // 2) store token if returned
+        let token = data.token || (data?.user && data.user.token) || null;
+        if(token) {
+          try { localStorage.setItem('qt_access', token); } catch(e){}
+        }
+  
+        // 3) fetch authoritative user record from DB via /api/auth/me using token
+        let me = null;
+        if (token) {
+          me = await fetchMeWithToken(token);
+        }
+        // If token fetch failed, try login response's user object as fallback
+        if(!me && data.user) me = data.user;
+  
+        // 4) Determine display name (prefer username, then name, then email local-part)
+        const displayName = (me && (me.username || me.name)) || (email.split('@')[0]) || 'there';
+        const role = (me && me.role) || data.role || (data.user && data.user.role) || 'user';
+  
+        // 5) persist minimal user info for navbar fallback
+        try {
+          localStorage.setItem('qt_user', JSON.stringify({ name: me?.name || displayName, email: me?.email || email, role }));
+        } catch (e){}
+  
+        // 6) decide redirect target and message
+        const redirectUrl = (role === 'admin') ? '/public/admin.html' : '/public/index.html';
+        const customMsg = role === 'admin' ? 'Opening admin dashboard...' : 'Taking you to the home page.';
+  
+        // 7) show success overlay with DB-backed name/username
+        showSuccessOverlay(displayName, role, customMsg, redirectUrl);
+  
       } catch(e){
         console.error('Login error', e);
-        err.textContent = 'Network error — check server is running.';
-        err.style.display = 'block';
+        showError('Network error — check server is running.');
       }
     });
-    </script>
-    
+  
+    // ENTER key support
+    ['email','password'].forEach(id => {
+      const el = document.getElementById(id);
+      el && el.addEventListener('keydown', (ev) => {
+        if(ev.key === 'Enter') document.getElementById('doLogin').click();
+      });
+    });
+  </script>
+  
+
 </body>
 </html>
