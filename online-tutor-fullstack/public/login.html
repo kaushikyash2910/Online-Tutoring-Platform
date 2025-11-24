@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <link rel="stylesheet" href="style.css">
   <style>
-    /* Simple success overlay styles */
     .success-overlay {
       position: fixed;
       inset: 0;
@@ -42,7 +41,6 @@
     .success-sub { font-size:14px;color:var(--muted,#6b7280); margin-bottom:12px; }
     .success-actions { display:flex;gap:8px; justify-content:center; margin-top:8px; }
     .btn.small { padding:8px 12px; font-size:14px; border-radius:10px; }
-    /* error message */
     #err { transition: opacity .18s ease; }
   </style>
 </head>
@@ -63,7 +61,6 @@
     </div>
   </div>
 
-  <!-- Success overlay (hidden by default) -->
   <div id="successOverlay" class="success-overlay" aria-hidden="true">
     <div class="success-box" role="dialog" aria-modal="true" aria-labelledby="successTitle">
       <div id="avatar" class="success-avatar">U</div>
@@ -160,7 +157,6 @@
       }
   
       try {
-        // 1) login
         const r = await postJSON('/login', { email, password });
         const data = await r.json().catch(()=>({}));
   
@@ -170,34 +166,27 @@
           return;
         }
   
-        // 2) store token if returned
         let token = data.token || (data?.user && data.user.token) || null;
         if(token) {
           try { localStorage.setItem('qt_access', token); } catch(e){}
         }
   
-        // 3) fetch authoritative user record from DB via /api/auth/me using token
         let me = null;
         if (token) {
           me = await fetchMeWithToken(token);
         }
-        // If token fetch failed, try login response's user object as fallback
         if(!me && data.user) me = data.user;
   
-        // 4) Determine display name (prefer username, then name, then email local-part)
         const displayName = (me && (me.username || me.name)) || (email.split('@')[0]) || 'there';
         const role = (me && me.role) || data.role || (data.user && data.user.role) || 'user';
   
-        // 5) persist minimal user info for navbar fallback
         try {
           localStorage.setItem('qt_user', JSON.stringify({ name: me?.name || displayName, email: me?.email || email, role }));
         } catch (e){}
   
-        // 6) decide redirect target and message
         const redirectUrl = (role === 'admin') ? '/public/admin.html' : '/public/index.html';
         const customMsg = role === 'admin' ? 'Opening admin dashboard...' : 'Taking you to the home page.';
   
-        // 7) show success overlay with DB-backed name/username
         showSuccessOverlay(displayName, role, customMsg, redirectUrl);
   
       } catch(e){
@@ -206,7 +195,6 @@
       }
     });
   
-    // ENTER key support
     ['email','password'].forEach(id => {
       const el = document.getElementById(id);
       el && el.addEventListener('keydown', (ev) => {

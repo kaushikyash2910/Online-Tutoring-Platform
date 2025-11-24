@@ -1,6 +1,3 @@
-// app.js — unified client logic (drop-in replacement)
-
-// ---------- demo data (extended) ----------
 
 const demoCourses = [
   { id: 1, title: 'Fundamentals of Mechanics', tag: 'jee', duration: '30 hrs', price: '₹1,299', tutor: 'Dr. Aryan', desc: 'Concept-first approach with solved problems.' },
@@ -14,18 +11,15 @@ const demoCourses = [
   { id: 9, title: 'Probability & Combinatorics', tag: 'class12', duration: '20 hrs', price: '₹799', tutor: 'Sandeep Sir', desc: 'Examples and shortcut methods.' },
 ];
 
-// Global state
-let currentCourses = demoCourses.slice(); // start with demo data so page is instant
-const COURSES_EL_ID = 'courses';
-const POLL_INTERVAL_MS = 30000; // 30s polling fallback
 
-// small HTML-escape helper
+let currentCourses = demoCourses.slice(); 
+const COURSES_EL_ID = 'courses';
+const POLL_INTERVAL_MS = 30000;
+
 function escapeHtml(s) {
   return String(s || '').replace(/[&<>"']/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[m]);
 }
 
-// Create DOM node for one course (works for both demo and server objects)
-// server objects may have `_id`; demo objects use `id`.
 function createCourseCard(c) {
   const title = c.title || c.name || 'Untitled';
   const tag = c.tag || '';
@@ -57,7 +51,6 @@ function createCourseCard(c) {
   return card;
 }
 
-// Render a list of courses (clears and re-renders)
 function renderCoursesFromList(list) {
   const wrap = document.getElementById(COURSES_EL_ID);
   if (!wrap) return;
@@ -71,17 +64,15 @@ function renderCoursesFromList(list) {
   }
 }
 
-// Prepend new course (SSE)
 function prependCourseToDOM(course) {
   const wrap = document.getElementById(COURSES_EL_ID);
   if (!wrap) return;
   const node = createCourseCard(course);
   wrap.insertBefore(node, wrap.firstChild);
-  // Also update currentCourses so filters and search include it
+
   currentCourses.unshift(course);
 }
 
-// Fetch courses from server. Handles both array responses and paginated {data: [...]}.
 async function fetchCoursesFromServer() {
   try {
     const res = await fetch('/api/courses');
@@ -95,7 +86,6 @@ async function fetchCoursesFromServer() {
   }
 }
 
-// Filtering & searching
 function applyFilterAndSearch(tag = 'all', query = '') {
   const q = (query || '').trim().toLowerCase();
   const filtered = currentCourses.filter(c => {
@@ -108,7 +98,6 @@ function applyFilterAndSearch(tag = 'all', query = '') {
   renderCoursesFromList(filtered);
 }
 
-// Setup chips and search handlers (single source of truth)
 function setupFiltersAndSearch() {
   const chips = Array.from(document.querySelectorAll('.chip'));
   chips.forEach(ch => {
@@ -131,7 +120,6 @@ function setupFiltersAndSearch() {
     if (e.key === 'Enter') document.getElementById('searchBtn').click();
   });
 
-  // Delegated click handlers for Details / Enroll buttons
   document.getElementById(COURSES_EL_ID).addEventListener('click', (ev) => {
     const btn = ev.target.closest('button');
     if (!btn) return;
@@ -141,35 +129,32 @@ function setupFiltersAndSearch() {
       if (c) alert(`${c.title}\n\n${c.desc}\nTutor: ${c.tutor}\nDuration: ${c.duration}\nPrice: ${c.price}`);
     } else if (btn.classList.contains('enroll-btn')) {
       const id = btn.dataset.id;
-      openEnroll && openEnroll(id); // call existing openEnroll if present
+      openEnroll && openEnroll(id);
     }
   });
 }
 
-// Initial render from demo data (fast)
 function initialRender() {
   currentCourses = demoCourses.slice();
   renderCoursesFromList(currentCourses);
-  // set the default active chip if not set
+
   if (!document.querySelector('.chip.active')) {
     const firstChip = document.querySelector('.chip');
     if (firstChip) firstChip.classList.add('active');
   }
 }
 
-// Polling fallback & SSE init
 async function initCourseSync() {
-  // Attempt to fetch from server once and replace demo data if available
+ 
   const serverList = await fetchCoursesFromServer();
   if (Array.isArray(serverList) && serverList.length) {
-    // normalize server items to behave like demo (no change needed usually)
+   
     currentCourses = serverList;
     const active = document.querySelector('.chip.active')?.getAttribute('data-tag') || 'all';
     const q = document.getElementById('searchInput')?.value || '';
     applyFilterAndSearch(active, q);
   }
 
-  // Start polling fallback
   setInterval(async () => {
     const fresh = await fetchCoursesFromServer();
     if (Array.isArray(fresh)) {
@@ -180,11 +165,9 @@ async function initCourseSync() {
     }
   }, POLL_INTERVAL_MS);
 
-  // Try SSE for real-time updates
   initSSEFallback();
 }
 
-// SSE listener with graceful fallback if it fails
 function initSSEFallback() {
   if (!window.EventSource) {
     console.log('EventSource not supported — using poll fallback.');
@@ -199,7 +182,7 @@ function initSSEFallback() {
     es.addEventListener('course_added', (ev) => {
       try {
         const course = JSON.parse(ev.data);
-        // ensure our currentCourses uses server object shape
+       
         currentCourses.unshift(course);
         prependCourseToDOM(course);
       } catch (err) {
@@ -211,7 +194,6 @@ function initSSEFallback() {
   }
 }
 
-// ---------- Animated counters, testimonials, theme toggle (kept from your file) ----------
 function animateCounter(el, start, end, duration) {
   const range = end - start;
   let startTime = null;
@@ -256,7 +238,6 @@ function advanceTesti() {
 }
 setInterval(advanceTesti, 3600);
 
-// theme toggle
 const themeToggle = document.getElementById('themeToggle');
 if (themeToggle) {
   themeToggle.addEventListener('click', () => {
@@ -271,9 +252,8 @@ if (themeToggle) {
   });
 }
 
-// ---------- Init everything ----------
 (function initAll() {
   setupFiltersAndSearch();
-  initialRender();      // render demo courses fast
-  initCourseSync();     // replace with server data when available + start sync (polling + SSE)
+  initialRender();      
+  initCourseSync();     
 })();

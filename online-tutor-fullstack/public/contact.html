@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Contact — QuickTutor</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="pages.css">
+</head>
+<body>
+  <div class="container">
+    <nav class="nav">
+      <div class="brand"><div class="logo">QT</div></div>
+      <div class="nav-links">
+        <a href="index.html#courses">Courses</a>
+        <a href="about.html">About</a>
+        <a href="faq.html">FAQ</a>
+        <a href="contact.html" class="active">Contact</a>
+      </div>
+    </nav>
+
+    <header class="page-hero">
+      <h1>Contact Support</h1>
+      <p>We’re here to help — reach out for technical support, partnerships, or feedback.</p>
+    </header>
+
+    <main class="page-section">
+      <div class="contact-grid">
+        <div>
+          <h2>General support</h2>
+          <p class="small">support@quicktutor.example — typical response 24–48 business hours.</p>
+
+          <h3 style="margin-top:18px">Partnerships</h3>
+          <p class="small">partner@quicktutor.example — for institutional collaborations and content partnerships.</p>
+
+          <h3 style="margin-top:18px">Careers</h3>
+          <p class="small">careers@quicktutor.example — apply with CV and brief teaching sample.</p>
+
+          <h3 style="margin-top:18px">Office</h3>
+          <p class="small">City — New Delhi, India</p>
+
+          <div style="margin-top:18px">
+            <button class="btn primary" onclick="window.location.href='mailto:support@quicktutor.example'">Email support</button>
+          </div>
+        </div>
+
+        <aside style="padding:16px;border-left:1px dashed rgba(255,255,255,0.03)">
+          <h3>Quick form</h3>
+          <form id="contactForm">
+            <div style="margin-bottom:8px"><input class="input" id="cname" placeholder="Your name" required style="width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03)"></div>
+            <div style="margin-bottom:8px"><input class="input" id="cemail" placeholder="Email" required style="width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03)"></div>
+            <div style="margin-bottom:8px"><textarea id="cmsg" placeholder="Message" rows="5" style="width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03)"></textarea></div>
+            <div><button type="submit" class="btn primary">Send</button></div>
+            <div id="cres" style="margin-top:12px;color:var(--muted);display:none"></div>
+          </form>
+        </aside>
+      </div>
+    </main>
+  </div>
+
+  <footer class="footer">
+    <div class="left"><div class="badge">QuickTutor</div></div>
+    <div class="links">
+      <a href="about.html">About</a>
+      <a href="faq.html">FAQ</a>
+      <a href="policy.html">Privacy & Terms</a>
+      <button id="footerToggleContact" class="toggle">▾ Links</button>
+    </div>
+  </footer>
+
+  <div id="footerDropdownContact" class="footer-dropdown" aria-hidden="true">
+    <div class="footer-grid">
+      <div class="col"><strong>Contact</strong><div style="margin-top:12px;color:var(--muted)">support@quicktutor.example</div></div>
+      <div class="col"><strong>Offices</strong><div style="margin-top:12px;color:var(--muted)">New Delhi, India</div></div>
+      <div class="col"><strong>Legal</strong><div style="margin-top:12px;color:var(--muted)"><a href="policy.html">Privacy & Terms</a></div></div>
+    </div>
+  </div>
+
+<script>
+  
+  document.getElementById('contactForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const name = document.getElementById('cname').value.trim();
+    const email = document.getElementById('cemail').value.trim();
+    const msg = document.getElementById('cmsg').value.trim();
+    const res = document.getElementById('cres');
+    res.style.display='block'; res.style.color='var(--muted)';
+    res.textContent = 'Sending…';
+    setTimeout(()=> {
+      res.style.color = 'var(--success)';
+      res.textContent = 'Message sent — our team will contact you within 48 hours. Thank you, ' + (name || 'there') + '!';
+      document.getElementById('contactForm').reset();
+    }, 800);
+  });
+
+ 
+  (function(){ const t = document.getElementById('footerToggleContact'); const dd = document.getElementById('footerDropdownContact'); t.addEventListener('click', ()=>{ dd.classList.toggle('open'); dd.setAttribute('aria-hidden', !dd.classList.contains('open')); });})();
+</script>
+</body>
+</html>

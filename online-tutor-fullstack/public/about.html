@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>About Us — QuickTutor</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="pages.css">
+</head>
+
+<body>
+  <div class="container">
+    <nav class="nav" aria-label="Main navigation">
+      <div class="brand">
+        <div class="logo">QT</div>
+        <div>
+          <div style="font-weight:700">QuickTutor</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px">Learn faster. Score higher.</div>
+        </div>
+      </div>
+
+      <div class="nav-links">
+        <a href="index.html#courses">Courses</a>
+        <a href="index.html#teachers">Teachers</a>
+        <a href="index.html#pricing">Pricing</a>
+        <a href="about.html" class="active">About</a>
+        <a class="cta" href="login.html">Join</a>
+      </div>
+    </nav>
+
+    <header class="page-hero" role="banner">
+      <h1>About QuickTutor</h1>
+      <p>We deliver structured, evidence-based learning experiences for high school and competitive exam students. Our tutors combine subject expertise with modern pedagogy and continuous assessment to maximize results.</p>
+    </header>
+
+    <main>
+      <section class="page-section longform" aria-labelledby="mission">
+        <h2 id="mission">Our Mission</h2>
+        <p>At QuickTutor, our mission is to make high-quality education accessible, reliable, and measurable. We design curriculum modules to focus on concept clarity first, followed by deliberate practice and exam strategies.</p>
+        <h3>What we focus on</h3>
+        <ul>
+          <li>Concept-first teaching with worked examples</li>
+          <li>Short, targeted video lessons for revision</li>
+          <li>Live doubt-solving clinics and weekly tests</li>
+          <li>Data-driven progress tracking and guidance</li>
+        </ul>
+
+        <h3>Impact & outcomes</h3>
+        <p>Students who follow our structured programs report higher retention, improved problem-solving speed, and measurable score improvements in mocks. Our analytics help tutors personalize follow-up tasks for each learner.</p>
+
+        <h3>Leadership & Tutors</h3>
+        <p>Our faculty includes experienced educators from coaching backgrounds and university lecturers — each chosen for clarity, patience, and measurable teaching outcomes.</p>
+      </section>
+
+      <section class="page-section longform" aria-labelledby="approach">
+        <h2 id="approach">Our Approach</h2>
+        <p>We combine proven pedagogical methods with modern learning science.</p>
+        <p><strong>Micro-learning:</strong> Short units that learners can finish in a single sitting, making revision efficient.</p>
+        <p><strong>Active practice:</strong> Problems are scaffolded — from guided examples to independent challenge tasks.</p>
+        <p><strong>Assessment:</strong> Frequent diagnostic tests guide the personalized study plan.</p>
+
+        <h3>Partnerships</h3>
+        <p>We collaborate with schools and coaching centers to co-create materials and teacher training programs, ensuring continuity of learning both inside and outside classrooms.</p>
+      </section>
+
+      <section class="page-section longform" aria-labelledby="values">
+        <h2 id="values">Values</h2>
+        <ul>
+          <li><strong>Integrity:</strong> Honest assessments and no inflated claims.</li>
+          <li><strong>Excellence:</strong> High standards for content and delivery.</li>
+          <li><strong>Student-first:</strong> Decisions prioritized for learning outcomes.</li>
+        </ul>
+
+        <h3>Careers & contributions</h3>
+        <p>Interested teachers can apply to join our faculty. We also welcome contributors for content and assessment design.</p>
+      </section>
+    </main>
+  </div>
+
+  <footer class="footer" role="contentinfo">
+    <div class="left">
+      <div class="kv">
+        <div class="badge">QuickTutor</div>
+        <div class="meta">Trusted learning for Class 6–12 & competitive exams</div>
+      </div>
+    </div>
+
+    <div class="links">
+      <a href="faq.html">FAQ</a>
+      <a href="contact.html">Contact</a>
+      <a href="policy.html">Privacy & Terms</a>
+      <button id="footerToggle" class="toggle" title="Open quick links">▾ Links</button>
+    </div>
+  </footer>
+
+  <div id="footerDropdown" class="footer-dropdown" aria-hidden="true">
+    <div class="footer-grid">
+      <div class="col">
+        <strong>Quick links</strong>
+        <ul style="margin-top:12px;line-height:1.8;color:var(--muted)">
+          <li><a href="index.html#courses">Browse courses</a></li>
+          <li><a href="about.html">About us</a></li>
+          <li><a href="faq.html">Help & FAQ</a></li>
+        </ul>
+      </div>
+      <div class="col">
+        <strong>Support</strong>
+        <div style="margin-top:12px;color:var(--muted)">
+          support@quicktutor.example<br>
+          +91 98765 43210 (Mon–Fri, 10:00–18:00)
+        </div>
+      </div>
+      <div class="col">
+        <strong>Legal</strong>
+        <div style="margin-top:12px;color:var(--muted)">
+          <a href="policy.html">Privacy & Terms</a><br>
+          <a href="contact.html">Report a problem</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  (function(){
+    const btn = document.getElementById('footerToggle');
+    const dd = document.getElementById('footerDropdown');
+    btn.addEventListener('click', ()=> {
+      dd.classList.toggle('open');
+      dd.setAttribute('aria-hidden', !dd.classList.contains('open'));
+    });
+
+    document.addEventListener('keydown',(e)=>{ if(e.key==='Escape') { dd.classList.remove('open'); dd.setAttribute('aria-hidden', 'true'); } });
+
+    if(!localStorage.theme) localStorage.theme = 'dark';
+    const root = document.documentElement;
+    if(localStorage.theme === 'light') root.classList.add('light');
+
+    const logo = document.querySelector('.logo');
+    logo.addEventListener('dblclick', ()=>{
+      if(root.classList.contains('light')){ root.classList.remove('light'); localStorage.theme='dark'; }
+      else { root.classList.add('light'); localStorage.theme='light'; }
+    });
+  })();
+</script>
+</body>
+</html>

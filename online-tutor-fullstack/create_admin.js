@@ -1,4 +1,4 @@
-/* create_admin.js — run once to create admin */
+
 require('dotenv').config();
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');

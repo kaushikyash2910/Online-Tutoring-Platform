@@ -7,7 +7,6 @@
   <meta name="description" content="Create an account" />
   <link rel="stylesheet" href="style.css">
   <style>
-    /* small centered form style (optional, your style.css will apply) */
     .auth-wrap { max-width:420px;margin:60px auto;padding:22px;border-radius:12px;background:var(--card); }
     .auth-row{margin-top:12px}
     .hint{font-size:13px;color:var(--muted);margin-top:8px}
@@ -88,7 +87,6 @@
         }
     
         try{
-          // use /signup route (your server.js defines this)
           const res = await postJSON('/signup', { name, email, password });
           const data = await res.json().catch(()=>({}));
     
@@ -106,7 +104,6 @@
         }
       });
     
-      // allow Enter to submit
       ['name','email','password'].forEach(id=>{
         const el = document.getElementById(id);
         if(el) el.addEventListener('keydown', (e)=>{ if(e.key === 'Enter') document.getElementById('doSignup').click(); });

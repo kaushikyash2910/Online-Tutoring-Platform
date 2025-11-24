@@ -1,4 +1,4 @@
-// --------- Enroll modal logic ----------
+
 const modalBack = document.getElementById('modalBack');
 const joinNow = document.getElementById('joinNow');
 const viewSchedule = document.getElementById('viewSchedule');
@@ -22,24 +22,20 @@ doEnroll && doEnroll.addEventListener('click', ()=>{
 
 modalBack && modalBack.addEventListener('click', (e)=>{ if(e.target===modalBack) { modalBack.classList.remove('show'); modalBack.setAttribute('aria-hidden','true'); } });
 
-// --------- Login button logic (fixed) ----------
 const loginBack = document.getElementById('loginBack');
 const loginBtn = document.getElementById('loginBtn');
 const closeLogin = document.getElementById('closeLogin');
 const doLogin = document.getElementById('doLogin');
 
-// Only open modal if the href="#" (in-page modal logic)
 if (loginBtn) {
   loginBtn.addEventListener('click', (e) => {
     const href = loginBtn.getAttribute('href') || "";
 
-    // If link is "#" → open modal (old behavior)
     if (href.trim() === "#" || href.trim() === "") {
       e.preventDefault();
       loginBack.classList.add("show");
       loginBack.setAttribute("aria-hidden", "false");
     }
-    // Else → allow navigation to login.html normally
   });
 }
 
@@ -73,7 +69,6 @@ loginBack &&
   });
 
 
-// --------- Video preview ----------
 const videoBack = document.getElementById('videoBack');
 const previewIframe = document.getElementById('previewIframe');
 const playPreview = document.getElementById('playPreview');
@@ -89,7 +84,6 @@ watchPreviewBtn && watchPreviewBtn.addEventListener('click', openVideoPreview);
 closeVideo && closeVideo.addEventListener('click', ()=>{ previewIframe.src=''; videoBack.classList.remove('show'); videoBack.setAttribute('aria-hidden','true'); });
 videoBack && videoBack.addEventListener('click', (e)=>{ if(e.target===videoBack) { previewIframe.src=''; videoBack.classList.remove('show'); videoBack.setAttribute('aria-hidden','true'); } });
 
-// --------- Upcoming sidebar ----------
 const upcomingSidebar = document.getElementById('upcomingSidebar');
 const closeSidebar = document.getElementById('closeSidebar');
 closeSidebar && closeSidebar.addEventListener('click', ()=>{ upcomingSidebar.style.display='none'; });
@@ -101,7 +95,6 @@ function handleSidebarVisibility(){
 window.addEventListener('resize', handleSidebarVisibility);
 handleSidebarVisibility();
 
-// Accessibility: close modals with Esc
 window.addEventListener('keydown', (e)=>{
   if(e.key === 'Escape'){
     [modalBack, loginBack, videoBack].forEach(m=>{

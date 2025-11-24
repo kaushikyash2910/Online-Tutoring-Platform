@@ -11,7 +11,6 @@
 <body>
   <div class="container">
 
-    <!-- NAVBAR -->
     <nav class="nav">
       <div class="brand">
         <div class="logo">QT</div>
@@ -25,10 +24,9 @@
         <a href="#courses">Courses</a>
         <a href="#teachers">Teachers</a>
         <a href="#pricing">Pricing</a>
-        <a href="#about">About</a>
+        <a href="about.html">About</a>
         <a class="cta" href="#" id="joinNow">Join Now</a>
 
-        <!-- LOGIN replaced by Account Dropdown -->
         <div class="userDropdown" id="userDropdown" style="position:relative;display:none">
           <button id="userBtn" class="btn">Account</button>
           <div class="dropdownMenu" id="dropdownMenu"
@@ -39,7 +37,6 @@
           </div>
         </div>
         
-        <!-- LOGIN BUTTON FOR NON-LOGGED USERS -->
         <a href="login.html" id="loginBtn">Login</a>
         
         
@@ -51,8 +48,6 @@
       </div>
     </nav>
 
-
-    <!-- HERO SECTION -->
     <div class="hero-wrap">
       <div class="hero-left">
         <div class="hero-card">
@@ -64,7 +59,6 @@
             <button id="searchBtn">Search</button>
           </div>
 
-          <!-- Stats -->
           <div class="stats">
             <div class="stat">
               <div class="num" id="studentsCounter">120k+</div>
@@ -80,7 +74,6 @@
             </div>
           </div>
 
-          <!-- Video Preview -->
           <div class="card" id="trendingCard" style="display:flex;gap:12px;align-items:center;margin-top:18px">
             <div style="width:160px;height:96px;background:linear-gradient(90deg,#06283d,#0a2e3f);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer"
                  id="playPreview">
@@ -97,7 +90,6 @@
             </div>
           </div>
 
-          <!-- Filters -->
           <div class="filters" id="filterStrip" style="margin-top:18px">
             <div class="chip active" data-tag="all">All</div>
             <div class="chip" data-tag="jee">JEE</div>
@@ -107,13 +99,11 @@
             <div class="chip" data-tag="cbse">CBSE</div>
           </div>
 
-          <!-- Course Cards -->
           <div id="courses" class="grid" aria-live="polite" style="margin-top:8px"></div>
 
         </div>
       </div>
 
-      <!-- ASIDE / Promo -->
       <aside class="promo">
         <h4>Featured Coach — Dr. Aryan</h4>
         <div class="teacher">
@@ -153,7 +143,6 @@
     </div>
 
 
-    <!-- SUBJECTS -->
     <section id="subjects" style="margin-top:28px">
       <div style="font-weight:700;margin-bottom:10px">Popular Subjects</div>
 
@@ -185,7 +174,6 @@
     </section>
 
 
-    <!-- TEACHERS -->
     <section class="teachers" id="teachers" style="margin-top:22px">
       <div style="font-weight:700">Top Tutors</div>
       <div style="flex:1"></div>
@@ -207,7 +195,6 @@
     </section>
 
 
-    <!-- REVIEWS -->
     <section id="reviews" style="margin-top:22px">
       <div style="font-weight:700;margin-bottom:10px">Reviews & Ratings</div>
 
@@ -230,7 +217,6 @@
     </section>
 
 
-    <!-- TESTIMONIALS -->
     <section id="testimonials" style="margin-top:22px">
       <div style="font-weight:700;margin-bottom:10px">Student Success Stories</div>
 
@@ -240,7 +226,6 @@
     </section>
 
 
-    <!-- PRICING -->
     <section id="pricing" style="margin-top:22px">
       <div style="font-weight:700;margin-bottom:10px">Pricing Plans</div>
 
@@ -274,16 +259,57 @@
       </div>
     </section>
 
-
-    <!-- FOOTER -->
-    <footer style="margin-top:36px;padding:18px 0;color:var(--muted);text-align:center">
-      © 2025 QuickTutor — Demo UI • Built for college minor project submission
+    <footer class="footer" role="contentinfo">
+      <div class="left">
+        <div class="kv">
+          <div class="badge">QuickTutor</div>
+          <div class="meta">Trusted learning for Class 6–12 & competitive exams</div>
+        </div>
+      </div>
+    
+      <div class="links">
+        <a href="about.html">About</a>
+        <a href="faq.html">FAQ</a>
+        <a href="contact.html">Contact</a>
+        <a href="policy.html">Privacy & Terms</a>
+        <a href="team.html">Team</a>
+        <a href="career.html">Careers</a>
+        <a href="blog.html">Blog</a>
+        <button id="footerToggle" class="toggle" title="Open quick links">▾ Links</button>
+      </div>
     </footer>
+    
+    <div id="footerDropdown" class="footer-dropdown" aria-hidden="true">
+      <div class="footer-grid">
+        <div class="col">
+          <strong>Quick links</strong>
+          <ul style="margin-top:12px;line-height:1.8;color:var(--muted)">
+            <li><a href="index.html#courses">Browse courses</a></li>
+            <li><a href="about.html">About us</a></li>
+            <li><a href="faq.html">Help & FAQ</a></li>
+            <li><a href="team.html">Our team</a></li>
+          </ul>
+        </div>
+        <div class="col">
+          <strong>Careers & Partnerships</strong>
+          <div style="margin-top:12px;color:var(--muted)">
+            <a href="career.html">Open roles</a><br>
+            <a href="contact.html">Partner with us</a>
+          </div>
+        </div>
+        <div class="col">
+          <strong>Resources</strong>
+          <div style="margin-top:12px;color:var(--muted)">
+            <a href="blog.html">Blog & insights</a><br>
+            <a href="policy.html">Privacy & Terms</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
 
   </div>
 
-
-  <!-- UPCOMING CLASSES SIDEBAR -->
   <aside id="upcomingSidebar" style="position:fixed;right:20px;top:120px;width:260px;background:rgba(2,6,23,0.7);padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);z-index:70;display:flex;flex-direction:column;gap:8px">
     <div style="font-weight:700;margin-bottom:6px">Upcoming Classes Today</div>
     <div class="small">Electrostatics — 6:00 PM</div>
@@ -293,8 +319,6 @@
     <button class="btn" id="closeSidebar" style="align-self:flex-end">✕</button>
   </aside>
 
-
-  <!-- ENROLL MODAL (still required) -->
   <div id="modalBack" class="modal-back" aria-hidden="true">
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
       <h3 id="modalTitle">Enroll in Course</h3>
@@ -321,8 +345,6 @@
     </div>
   </div>
 
-
-  <!-- VIDEO PREVIEW MODAL -->
   <div id="videoBack" class="modal-back" aria-hidden="true">
     <div class="modal" role="dialog" aria-modal="true" style="max-width:900px">
       <h3 id="videoTitle">Preview Class — Electrostatics</h3>
@@ -340,7 +362,37 @@
 
     </div>
   </div>
-
+  <script>
+    (function () {
+      const btn = document.getElementById('footerToggle');
+      const dd = document.getElementById('footerDropdown');
+    
+      if (!btn || !dd) return;
+    
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation(); 
+        dd.classList.toggle('open');
+        dd.setAttribute('aria-hidden', !dd.classList.contains('open'));
+      });
+    
+      document.addEventListener('click', (e) => {
+        if (dd.classList.contains('open') &&
+            !dd.contains(e.target) &&
+            e.target !== btn) {
+          dd.classList.remove('open');
+          dd.setAttribute('aria-hidden', 'true');
+        }
+      });
+    
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          dd.classList.remove('open');
+          dd.setAttribute('aria-hidden', 'true');
+        }
+      });
+    })();
+    </script>
+    
 
   <script src="app.js" defer></script>
   <script src="modals.js" defer></script>

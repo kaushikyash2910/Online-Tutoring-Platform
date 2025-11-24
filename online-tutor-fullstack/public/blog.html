@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Blog — QuickTutor</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="pages.css">
+</head>
+<body>
+  <div class="container">
+    <nav class="nav"><div class="brand"><div class="logo">QT</div></div><div class="nav-links"><a href="index.html#courses">Courses</a><a href="about.html">About</a><a href="blog.html" class="active">Blog</a><a href="career.html">Careers</a></div></nav>
+
+    <header class="page-hero">
+      <h1>Insights & blog</h1>
+      <p>Short articles on learning strategies, exam tips and updates from QuickTutor.</p>
+    </header>
+
+    <main>
+      <section class="page-section">
+        <article class="card" style="margin-bottom:12px">
+          <h3 style="margin:0">How to revise effectively before mocks</h3>
+          <div class="small" style="color:var(--muted)">Nov 12, 2025 • Study strategies</div>
+          <p class="small" style="margin-top:8px;color:var(--muted)">Use spaced-repetition, practice tests and topic-wise checkpoints. Start with quick topic self-checks and allocate most time to weak topics...</p>
+          <div style="margin-top:8px"><a href="#" class="btn ghost">Read more</a></div>
+        </article>
+
+        <article class="card" style="margin-bottom:12px">
+          <h3 style="margin:0">Math shortcuts that save time</h3>
+          <div class="small" style="color:var(--muted)">Oct 22, 2025 • Exam tips</div>
+          <p class="small" style="margin-top:8px;color:var(--muted)">A curated list of algebraic manipulations and approximation techniques proven useful in time-bound exams...</p>
+          <div style="margin-top:8px"><a href="#" class="btn ghost">Read more</a></div>
+        </article>
+
+        <article class="card" style="margin-bottom:12px">
+          <h3 style="margin:0">Effective note-taking for science</h3>
+          <div class="small" style="color:var(--muted)">Sep 09, 2025 • Study workflow</div>
+          <p class="small" style="margin-top:8px;color:var(--muted)">Diagram-first notes help retention in biology — capture systems, label and summarize key processes...</p>
+          <div style="margin-top:8px"><a href="#" class="btn ghost">Read more</a></div>
+        </article>
+      </section>
+
+      <section class="page-section" style="margin-top:18px">
+        <h2>Contribute</h2>
+        <p class="small">If you'd like to contribute an article on teaching techniques or learning science, email editor@quicktutor.example.</p>
+      </section>
+    </main>
+  </div>
+
+  <footer class="footer"><div class="left"><div class="badge">QuickTutor</div></div><div class="links"><a href="about.html">About</a><a href="team.html">Team</a><a href="contact.html">Contact</a><a href="policy.html">Privacy</a><button id="footerToggleBlog" class="toggle">▾ Links</button></div></footer>
+  <div id="footerDropdownBlog" class="footer-dropdown" aria-hidden="true"><div class="footer-grid"><div class="col"><strong>Blog</strong><div style="margin-top:12px;color:var(--muted)"><a href="#">Latest posts</a></div></div><div class="col"><strong>Contribute</strong><div style="margin-top:12px;color:var(--muted)"><a href="contact.html">Contact editor</a></div></div><div class="col"><strong>Legal</strong><div style="margin-top:12px;color:var(--muted)"><a href="policy.html">Privacy & Terms</a></div></div></div></div>
+
+<script>
+  (function(){ const t = document.getElementById('footerToggleBlog'); const dd = document.getElementById('footerDropdownBlog'); if(t) t.addEventListener('click', ()=>{ dd.classList.toggle('open'); dd.setAttribute('aria-hidden', !dd.classList.contains('open')); }); document.addEventListener('keydown',(e)=>{ if(e.key==='Escape'){ dd.classList.remove('open'); dd.setAttribute('aria-hidden','true'); } }); })();
+</script>
+</body>
+</html>

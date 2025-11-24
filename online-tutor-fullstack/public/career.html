@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Careers — QuickTutor</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="pages.css">
+</head>
+<body>
+  <div class="container">
+    <nav class="nav"><div class="brand"><div class="logo">QT</div></div><div class="nav-links"><a href="index.html#courses">Courses</a><a href="about.html">About</a><a href="team.html">Team</a><a href="career.html" class="active">Careers</a></div></nav>
+
+    <header class="page-hero">
+      <h1>Careers at QuickTutor</h1>
+      <p>Join us to build products and learning experiences that impact thousands of students.</p>
+    </header>
+
+    <main>
+      <section class="page-section">
+        <h2>Open roles</h2>
+        <div style="display:grid;gap:12px;margin-top:12px">
+          <div class="card">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div>
+                <div style="font-weight:700">Senior Frontend Engineer</div>
+                <div class="small" style="color:var(--muted)">Remote/Hybrid — product team</div>
+              </div>
+              <div><button class="btn">Apply</button></div>
+            </div>
+            <p class="small" style="margin-top:8px;color:var(--muted)">Build responsive course UIs, optimize performance and accessibility. Experience with React required.</p>
+          </div>
+
+          <div class="card">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div>
+                <div style="font-weight:700">Content & Curriculum Specialist</div>
+                <div class="small" style="color:var(--muted)">Full-time — Mumbai/Remote</div>
+              </div>
+              <div><button class="btn">Apply</button></div>
+            </div>
+            <p class="small" style="margin-top:8px;color:var(--muted)">Design micro-lessons and assessments for sciences & maths. Prior tutoring/teaching experience preferred.</p>
+          </div>
+
+          <div class="card">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div>
+                <div style="font-weight:700">Operations & Student Success</div>
+                <div class="small" style="color:var(--muted)">Full-time — Delhi</div>
+              </div>
+              <div><button class="btn">Apply</button></div>
+            </div>
+            <p class="small" style="margin-top:8px;color:var(--muted)">Manage onboarding, student queries and learning outcomes operations.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-section" style="margin-top:18px">
+        <h2>How to apply</h2>
+        <p class="small">Send your CV and a short teaching/sample note to <strong>careers@quicktutor.example</strong>. For engineering roles, include GitHub or portfolio links.</p>
+        <p class="small">We review applications on a rolling basis and will contact shortlisted candidates within 2 weeks.</p>
+      </section>
+    </main>
+  </div>
+
+  <footer class="footer"><div class="left"><div class="badge">QuickTutor</div></div><div class="links"><a href="about.html">About</a><a href="team.html">Team</a><a href="faq.html">FAQ</a><a href="contact.html">Contact</a><button id="footerToggleCareer" class="toggle">▾ Links</button></div></footer>
+  <div id="footerDropdownCareer" class="footer-dropdown" aria-hidden="true"><div class="footer-grid"><div class="col"><strong>Careers</strong><div style="margin-top:12px;color:var(--muted)"><a href="career.html">Open roles</a></div></div><div class="col"><strong>Support</strong><div style="margin-top:12px;color:var(--muted)">careers@quicktutor.example</div></div><div class="col"><strong>Legal</strong><div style="margin-top:12px;color:var(--muted)"><a href="policy.html">Privacy & Terms</a></div></div></div></div>
+
+<script>
+  (function(){ const t = document.getElementById('footerToggleCareer'); const dd = document.getElementById('footerDropdownCareer'); if(t) t.addEventListener('click', ()=>{ dd.classList.toggle('open'); dd.setAttribute('aria-hidden', !dd.classList.contains('open')); }); document.addEventListener('keydown',(e)=>{ if(e.key==='Escape'){ dd.classList.remove('open'); dd.setAttribute('aria-hidden','true'); } }); })();
+</script>
+</body>
+</html>

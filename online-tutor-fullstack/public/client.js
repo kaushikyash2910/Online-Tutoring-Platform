@@ -15,32 +15,26 @@ async function fetchMe() {
   }
 }
 
-// helper: read logged-in user from localStorage (fallback)
 function getLocalUser(){
   try{ return JSON.parse(localStorage.getItem('qt_user') || 'null'); }
   catch(e){ return null; }
 }
 
 (async () => {
-  // existing elements in your markup (ensure these exist in index.html)
   const loginBtn = document.getElementById('loginBtn');
-  const userDropdown = document.getElementById('userDropdown'); // optional container you may have
-  const userBtn = document.getElementById('userBtn'); // optional
-  const dropdownMenu = document.getElementById('dropdownMenu'); // optional
-  const userName = document.getElementById('userName'); // optional
-  const logoutBtn = document.getElementById('logoutBtn'); // optional
+  const userDropdown = document.getElementById('userDropdown'); 
+  const userBtn = document.getElementById('userBtn'); 
+  const dropdownMenu = document.getElementById('dropdownMenu'); 
+  const userName = document.getElementById('userName');
+  const logoutBtn = document.getElementById('logoutBtn'); 
 
-  // Try server-side verification first (requires access token in localStorage)
   let me = await fetchMe();
 
-  // If server didn't return user, fallback to localStorage-stored user
   if(!me) me = getLocalUser();
 
   if (me) {
-    // Hide simple login link if present
     if(loginBtn) loginBtn.style.display = 'none';
 
-    // Build a small user dropdown in navbar if not already present
     let wrapper = document.querySelector('.nav-user');
     if(!wrapper){
       wrapper = document.createElement('div');
@@ -80,44 +74,39 @@ function getLocalUser(){
       wrapper.appendChild(btn);
       wrapper.appendChild(menu);
 
-      // Place wrapper near nav links — find .nav-links and append
       const navLinks = document.querySelector('.nav-links');
       if(navLinks) navLinks.appendChild(wrapper);
       else document.body.appendChild(wrapper);
 
-      // toggle
       btn.addEventListener('click', ()=>{ menu.style.display = menu.style.display === 'block' ? 'none' : 'block'; });
 
-      // logout logic
       logout.addEventListener('click', async ()=>{
         try{
           await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
-        }catch(e){ /* ignore */ }
+        }catch(e){  }
         localStorage.removeItem('qt_access');
         localStorage.removeItem('qt_user');
-        // redirect to login page
+       
         window.location.href = '/public/login.html';
       });
     }
   } else {
-    // no user — ensure login link visible
+  
     if(loginBtn){
       loginBtn.style.display = 'inline-block';
       loginBtn.href = '/public/login.html';
-      loginBtn.addEventListener('click', (e)=>{ /* normal navigation */ });
+      loginBtn.addEventListener('click', (e)=>{  });
     }
-    // remove any stale nav-user widget
     const existing = document.querySelector('.nav-user');
     if(existing) existing.remove();
   }
 
-  // If we have user info from server, persist minimal copy in localStorage for future fallback
+  
   if(me && me.name){
     localStorage.setItem('qt_user', JSON.stringify({ name: me.name, email: me.email, role: me.role }));
   }
 })();
 
-/* ---------- Load courses for dropdown (keeps courses menu live) ---------- */
 async function loadCourseDropdown(){
   try{
     const r = await fetch('/api/allCourses');
@@ -127,7 +116,7 @@ async function loadCourseDropdown(){
     const courseLink = document.querySelector('a[href="#courses"]');
     if(!courseLink) return;
 
-    // remove existing dropdown if any
+    
     const old = courseLink.querySelector('.courses-dropdown');
     if(old) old.remove();
 
@@ -170,8 +159,6 @@ async function loadCourseDropdown(){
   }
 }
 
-// Call it once on load
 loadCourseDropdown();
 
-// Optionally refresh courses every 30s (if admin may add courses externally)
 setInterval(loadCourseDropdown, 30_000);

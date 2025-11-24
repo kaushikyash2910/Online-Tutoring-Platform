@@ -23,12 +23,10 @@
   </div>
 
 <script>
-  // helper: get saved token
   function getToken() {
     try { return localStorage.getItem('qt_access'); } catch(e){ return null; }
   }
 
-  // fetch current user from server using token (returns null if not logged)
   async function fetchMe() {
     const token = getToken();
     if (!token) return null;
@@ -39,36 +37,28 @@
     } catch (err) { return null; }
   }
 
-  // unified api helper that injects Authorization header when token exists
   async function api(path, opts = {}) {
     opts = opts || {};
-    // include credentials for completeness (cookies if used)
     opts.credentials = opts.credentials || 'include';
     if (!opts.headers) opts.headers = {};
-    // inject content-type for bodies
     if (!opts.headers['Content-Type'] && opts.body) opts.headers['Content-Type'] = 'application/json';
-    // inject auth header if token present
     const token = getToken();
     if (token) opts.headers['Authorization'] = 'Bearer ' + token;
-    // stringify body if needed
     if (opts.body && typeof opts.body !== 'string') opts.body = JSON.stringify(opts.body);
 
     return fetch(path, opts);
   }
 
-  // show a friendly message area (admin-only or login redirect)
   function showNotice(msg, isError = false) {
     const el = document.getElementById('adminNotice');
     el.textContent = msg;
     el.style.color = isError ? '#d33' : 'var(--muted)';
   }
 
-  // load courses and render
   async function load(){
     try {
       const r = await api('/api/courses');
       if (r.status === 401) {
-        // not authenticated
         alert('You are not authenticated. Please login as admin.');
         window.location.href = '/public/login.html';
         return;
@@ -109,7 +99,6 @@
     }
   }
 
-  // add course
   async function addCourse(){
     const title = document.getElementById('title').value.trim();
     const tag = document.getElementById('tag').value.trim();
@@ -141,7 +130,6 @@
     }
   }
 
-  // remove course
   async function remove(id){
     if(!confirm('Delete course?')) return;
     try {
@@ -166,14 +154,12 @@
 
   function edit(id){ alert('Edit via API: PUT /api/courses/' + id + ' (implement UI if needed)'); }
 
-  // small safe HTML escape
   function escapeHtml(s) {
     return String(s || '').replace(/[&<>"']/g, (m)=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[m]);
   }
 
   document.getElementById('addCourse').addEventListener('click', addCourse);
 
-  // on load: verify user is admin then load
   (async function verifyAndLoad() {
     const me = await fetchMe();
     if (!me) {
@@ -186,9 +172,8 @@
       window.location.href = '/public/login.html';
       return;
     }
-    // show admin name
     showNotice('Logged in as admin: ' + (me.name || me.username || me.email));
-    // load courses
+   
     load();
   })();
 </script>
